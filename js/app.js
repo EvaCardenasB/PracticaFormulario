@@ -75,7 +75,6 @@ function validarRegistro() {
 
         if(!sexo) {
             mostrarMensaje('No ha seleccionado ningún sexo', true)
-            document.getElementById('sexo').style.borderColor = 'red'
         }
 
         if(cuenta == '') {
@@ -93,7 +92,6 @@ function validarRegistro() {
 
         if(!cuota) {
             mostrarMensaje('No ha seleccionado ninguna cuota', true)
-            document.getElementById('cuota').style.input = 'red'
         }
 
         if(nombre != '' && apellidos != '' && direccion != '' && postal != '' && telefono != '' && correo != '' && dni != '' && fechaNac != '' && sexo && cuenta != '' && banco != '' && cuota) {
@@ -156,5 +154,80 @@ function validarRegistro() {
             edad--;
         }
         return edad;
+    }
+}
+
+// RAFA
+
+
+// EVA
+
+function mostrarOption(){
+            
+    var getSelectValue = document.getElementById("myselect_contact").value;
+    var getIdTelephone = document.getElementById("id_telefono");
+    var getIdEmail = document.getElementById("id_email");
+    if(getSelectValue=="telefono") {
+        getIdTelephone.style.display = "block";
+        getIdEmail.style.display = "none";
+    
+    }else if(getSelectValue=="email"){
+        getIdEmail.style.display = "block";
+        getIdTelephone.style.display = "none";
+
+    }else{
+        getIdEmail.style.display = "none";
+        getIdTelephone.style.display = "none";
+    }    
+}
+
+function validarContacto() {
+    const nombre = document.getElementById("nombre")
+    const apellidos = document.getElementById("apellidos")
+    const opcion = document.getElementById("myselect_contact")
+    const email = document.getElementById("id_email")
+    const telefono = document.getElementById("id_telefono")
+    const formulario =document.getElementById("form_contact")
+    
+    formulario.addEventListener("submit",e=>{
+        e.preventDefault()
+        let regexEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
+        if(nombre.value.length <3){
+            mostrarMensaje('El nombre no es valido',true)
+        }
+        if(apellidos.value.length <3){
+            mostrarMensaje('El apellido no es valido', true)
+        }
+        
+        if(opcion.value=='email'){
+            if(email.value==''){
+                mostrarMensaje('El campo de contacto no puede estar vacío', true)
+        }else if(!regexEmail.test(email.value)){
+            mostrarMensaje('El email no es válido', true)
+        }
+        }else if(opcion.value=='telefono'){
+            if(telefono.value==''){
+                mostrarMensaje('El campo de contacto tel no puede estar vacío', true)
+            }
+        }else{
+            mostrarMensaje('Debes escoger una opción para poderle contactar', true)
+        }
+    })
+
+    function mostrarMensaje(mensaje, error = null) {
+        let alerta = document.createElement('P')
+        alerta.textContent = mensaje
+
+        if(error) {
+            alerta.classList.add('alerta','error')
+        } else {
+            alerta.classList.add('alerta','correcto')
+        }      
+
+        formulario.appendChild(alerta)
+
+        setTimeout(() => {
+            alerta.remove()
+        }, 5000)
     }
 }
